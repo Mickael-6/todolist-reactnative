@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, TextInput,Modal,Pressable,ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, TextInput,Modal,Pressable,ImageBackground,testModal} from 'react-native';
 import React, { useState } from 'react';
-
 // import { useState } from 'react';
 
 
@@ -23,6 +22,7 @@ export default function App() {
   const [name,  onChangeText] = React.useState('');
   const [listes, setListes] = React.useState(defaultListes)
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
   const [saveid, setSaveId] = useState(null);
 
   const image = {uri: 'https://www.schoolspecialty.ca/images/038779_ecommfullsize.jpg'};
@@ -32,7 +32,6 @@ export default function App() {
   const onSubmitted = () => {
 
     console.log("name :",name);
-    ;
     
     setListes([
       ...listes,
@@ -52,16 +51,23 @@ export default function App() {
     setModalVisible(!modalVisible) ,
     setSaveId(id)
  }; 
+  const openModalInput = (id) => { 
+    setModalVisible2(!modalVisible2) ,
+    setSaveId(id)
+ }; 
   const closeModal = () => { 
-    setModalVisible(!modalVisible) 
-    
+    setModalVisible(!modalVisible)    
+ }; 
+  const closeModalInput = () => { 
+    setModalVisible2(!modalVisible2)    
  }; 
 
+ 
  
   return (
 <ImageBackground source={image} resizeMode="cover" style={styles.image}>
     <View style={styles.container}>
-         
+   
       <SafeAreaView style={styles.Safe} >
         <TextInput
           style={styles.input}
@@ -87,6 +93,12 @@ export default function App() {
      onPress={() => openModal(i) }
     // onPress={() => Delete(i)} 
     title="supprimer"
+    color="#841584"
+    />
+    <Button
+     onPress={() => openModalInput(i) }
+    // onPress={() => Delete(i)} 
+    title="edit"
     color="#841584"
     />
       </Text>;
@@ -115,6 +127,37 @@ export default function App() {
               onPress={() => closeModal()}>
               <Text style={styles.textStyle}>Non</Text>
             </Pressable>
+
+          </View>
+        </View>
+      </Modal>
+      {/* commentaire */}
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible2}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible2(!modalVisible2);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+          <SafeAreaView>
+  
+      <TextInput
+        style={styles.input}
+        onChangeText={text => onChangeText(text)}
+        value={name}
+        placeholder={name}
+       
+      />
+      <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => closeModalInput()}>
+              <Text style={styles.textStyle}>X</Text>
+            </Pressable>
+    </SafeAreaView>
+            
 
           </View>
         </View>
